@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody rb;
     private int count;
 
+    
+
     void Start ()
     {
         rb = GetComponent<Rigidbody>();
@@ -28,7 +30,7 @@ public class PlayerController : MonoBehaviour {
         Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
         rb.AddForce (movement * speed); 
         if (Input.GetKey("escape"))
-        Application.Quit ();
+            Application.Quit ();
      
 
     }
@@ -38,9 +40,21 @@ public class PlayerController : MonoBehaviour {
         {
             other.gameObject.SetActive (false);
             count = count + 1;
-            SetCountText ();
+            score = score + 1;
+            SetAllText ();
         }
-    }
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.SetActive(false);
+            count = count + 1;  
+            score = score - 1; // this removes 1 from the score
+            SetAllText();
+        }
+    } 
+
+
+
+    
     void SetCountText ()
     {
         countText.text = "Count: " + count.ToString ();
