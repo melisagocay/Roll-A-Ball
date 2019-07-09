@@ -8,10 +8,12 @@ public class PlayerController : MonoBehaviour {
     public float speed;
     public Text countText;
     public Text winText;
+
+    public Text scoreText;
     
     private Rigidbody rb;
     private int count;
-
+    private int score;
     
 
     void Start ()
@@ -19,8 +21,11 @@ public class PlayerController : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         count = 0;
         SetCountText ();
+        score = 0;
+        scoreText.text = "Score: " + score.ToString ();
         winText.text = "";
     }
+    
 
 
     void FixedUpdate() 
@@ -34,31 +39,34 @@ public class PlayerController : MonoBehaviour {
      
 
     }
-    void OnTriggerEnter (Collider other) 
+   private void OnTriggerEnter(Collider other)
     {
-        if  (other.gameObject.CompareTag("Pick Up"))
-        {
-            other.gameObject.SetActive (false);
-            count = count + 1;
-            score = score + 1;
-            SetAllText ();
-        }
-        else if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Pick Up"))
         {
             other.gameObject.SetActive(false);
-            count = count + 1;  
-            score = score - 1; // this removes 1 from the score
-            SetAllText();
+            count = count + 1; 
+            SetCountText();
+            score = score + 1; // I added this code to track the score and count separately.
+            SetScoreText();
         }
-    } 
-
-
-
-    
+        else if (other.gameObject.CompareTag("Enemy"))
+        {       
+            other.gameObject.SetActive(false);
+             count = count + 1;
+            SetCountText();
+            score = score - 1; // this removes 1 from the score
+            SetScoreText();
+        }
+    }
     void SetCountText ()
     {
         countText.text = "Count: " + count.ToString ();
-        if (count >= 12)
+    }
+    
+    void SetScoreText ()
+    {
+        scoreText.text = "Score: " + score.ToString ();
+        if (score >= 12)
         {
             winText.text = "You Win!";
         }
