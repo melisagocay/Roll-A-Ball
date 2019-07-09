@@ -4,25 +4,14 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    public float speed = 3;
- 
-    private Vector3 newPosition;
 
-    void Awake ()
-    {
-        newPosition = transform.position;
-    }
-    void Update ()
-    {
-        PositionChanging ();
-    }
-    void PositionChanging ()
-    {
-        Vector3 positionA = new Vector3(3, 1, 3);
-        Vector3 positionB = new Vector3(-3, 1, 3);
-        transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * speed);
-    }
-
+    
+     Vector3 pointA = new Vector3(-7, 0.5f, 3);
+     Vector3 pointB = new Vector3(7, 0.5f, 3);
+     void Update()
+     {
+         transform.position = Vector3.Lerp(pointA, pointB, Mathf.PingPong(Time.time, 1));
+     }
 
 
 
